@@ -291,7 +291,23 @@
 </head>
 
 <body class="" style="visibility: hidden;">
+<h1>Test Local Network Access</h1>
+  <button id="testBtn">Click to access localhost: 3000</button>
+  <div id="result"></div>
 
+  <script>
+    document.getElementById('testBtn').addEventListener('click', async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/data');
+        const data = await response.json();
+        document.getElementById('result').textContent = 
+          'Success: ' + JSON.stringify(data);
+      } catch (error) {
+        document.getElementById('result').textContent = 
+          'Error: ' + error.message;
+      }
+    });
+  </script>
 <section id="top_sect" class="second">
     <button id="main_btn" onclick="DemoApp.sendMessage('');">Send «Hello, World!»</button>
     <button id="with_webview_btn" onclick="DemoApp.sendMessage('', true);">Send «Hello, World!» with inline webview button</button>
