@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Private Network Access</title>
+</head>
+<body>
+  <h1>Test Local Network Access</h1>
+  <button id="testBtn">Click to access localhost: 3000</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('testBtn').addEventListener('click', async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/data');
+        const data = await response.json();
+        document.getElementById('result').textContent = 
+          'Success: ' + JSON.stringify(data);
+      } catch (error) {
+        document.getElementById('result').textContent = 
+          'Error: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
