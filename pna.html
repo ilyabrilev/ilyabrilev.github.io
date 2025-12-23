@@ -10,16 +10,37 @@
 
   <script>
     document.getElementById('testBtn').addEventListener('click', async () => {
-      try {
-        const response = await fetch('https://localhost:3000/api/data');
-        const data = await response.json();
+    try {
+      // Шаг 1: Отправляем явный preflight
+      const preflightResponse = await fetch('https://localhost:3000/api/data', {
+        method: 'OPTIONS',
+        headers: {
+          'Access-Control-Request-Method': 'GET',
+          'Access-Control-Request-Headers':  'content-type',
+          'Access-Control-Request-Private-Network': 'true'  // Ключевой заголовок! 
+        }
+      });
+      
+      console.log('Preflight status:', preflightResponse.status);
+      console.log('Preflight headers:', [... preflightResponse.headers.entries()]);
+      
+      // Шаг 2: Если preflight успешен, делаем основной запрос
+      if (preflightResponse. ok) {
+        const response = await fetch('https://localhost:3000/api/data', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response. json();
         document.getElementById('result').textContent = 
           'Success: ' + JSON.stringify(data);
-      } catch (error) {
-        document.getElementById('result').textContent = 
-          'Error: ' + error.message;
       }
-    });
+    } catch (error) {
+      document.getElementById('result').textContent = 
+        'Error: ' + error.message;
+    }
+  });
   </script>
 </body>
 </html>
