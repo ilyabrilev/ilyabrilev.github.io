@@ -10,7 +10,7 @@
 
   <script>
     document.getElementById('testBtn').addEventListener('click', async () => {
-      fetch('http://192.168.1.100:3000/api/data', {
+      fetch('https://localhost:3000/api/data', {
         method: 'POST',  // Не-GET/POST или просто POST с непростым контентом
         headers: {
           'Content-Type': 'application/json',
