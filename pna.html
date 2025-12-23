@@ -12,11 +12,11 @@
     document.getElementById('testBtn').addEventListener('click', async () => {
       try {
         const response = await fetch('https://localhost:3000/api/data', {
-          method: 'POST',  // POST автоматически вызывает preflight
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ test: true })
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'  // Этот заголовок вызовет preflight
+          }
         });
         const data = await response.json();
         document.getElementById('result').textContent = 
@@ -25,7 +25,7 @@
         document.getElementById('result').textContent = 
           'Error: ' + error.message;
       }
-  });
+    });
   </script>
 </body>
 </html>
