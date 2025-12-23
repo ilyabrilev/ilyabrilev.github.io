@@ -10,21 +10,28 @@
 
   <script>
     document.getElementById('testBtn').addEventListener('click', async () => {
-      try {
-        const response = await fetch('https://localhost:3000/api/data', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'  // Этот заголовок вызовет preflight
-          }
-        });
-        const data = await response.json();
-        document.getElementById('result').textContent = 
-          'Success: ' + JSON.stringify(data);
-      } catch (error) {
-        document.getElementById('result').textContent = 
-          'Error: ' + error.message;
-      }
+      fetch('http://192.168.1.100:3000/api/data', {
+        method: 'POST',  // Не-GET/POST или просто POST с непростым контентом
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Request-ID': '12345',  // Дополнительный кастомный заголовок
+          'Authorization': 'Bearer token123'  // Еще один нестандартный заголовок
+        },
+        mode: 'cors',  // Явно указываем CORS режим
+        credentials: 'include',  // Если нужны куки/авторизация
+        body: JSON.stringify({ 
+          data: 'test',
+          timestamp: Date.now()
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => console.log('Success:', data))
+      .catch(error => console.error('Error:', error));
     });
   </script>
 </body>
